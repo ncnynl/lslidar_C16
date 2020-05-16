@@ -8,7 +8,7 @@
   </node>
 
   <node pkg="lslidar_c16_decoder" type="lslidar_c16_decoder_node" name="lslidar_c16_decoder_node" output="screen">
-    <param name="frame_id" value="laser_link"/>
+    <param name="frame_id" value="laser"/>
     <param name="point_num" value="2000"/>
     <param name="channel_num" value="8"/>
     <param name="angle_disable_min" value="0"/>
@@ -20,6 +20,7 @@
     <param name="frequency" value="10.0"/>
     <param name="publish_point_cloud" value="true"/>
     <param name="publish_scan" value="true"/>
+    <param name="distance_unit" value="0.25"/>
     <param name="use_gps_ts" value="false"/>
   </node>
   

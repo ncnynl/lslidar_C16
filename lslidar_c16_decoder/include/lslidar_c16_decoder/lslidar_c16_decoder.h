@@ -205,6 +205,7 @@ private:
     double angle3_disable_min;
     double angle3_disable_max;
     double frequency;
+    double distance_unit;
     bool publish_point_cloud;
     bool use_gps_ts;
     bool publish_scan;

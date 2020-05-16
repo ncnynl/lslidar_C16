@@ -56,6 +56,7 @@ bool LslidarC16Decoder::loadParameters() {
     pnh.param<double>("frequency", frequency, 20.0);
     pnh.param<bool>("publish_point_cloud", publish_point_cloud, true);
     pnh.param<bool>("publish_scan", publish_scan, false);
+    pnh.param<double>("distance_unit", distance_unit, 1.0);
     pnh.param<bool>("apollo_interface", apollo_interface, false);
     //pnh.param<string>("fixed_frame_id", fixed_frame_id, "map");
     pnh.param<string>("frame_id", frame_id, "lslidar");
@@ -160,9 +161,10 @@ void LslidarC16Decoder::publishPointCloud() {
             {
                 continue;
             }
-            point.x = scan.points[j].x;
-            point.y = scan.points[j].y;
-            point.z = scan.points[j].z;
+            point.x = scan.points[j].x * distance_unit;
+            point.y = scan.points[j].y * distance_unit;
+            point.z = scan.points[j].z * distance_unit;
+	    
             point.intensity = scan.points[j].intensity;
             point_cloud->points.push_back(point);
             ++point_cloud->width;
@@ -257,7 +259,7 @@ void LslidarC16Decoder::publishChannelScan()
         if (point_idx < 0)
             point_idx = point_num - 1;
 
-        scan.ranges[point_num - 1-point_idx] = sweep_data->scans[j].points[i].distance;
+        scan.ranges[point_num - 1-point_idx] = sweep_data->scans[j].points[i].distance*distance_unit;
         scan.intensities[point_num - 1-point_idx] = sweep_data->scans[j].points[i].intensity;
     }
 
@@ -318,7 +320,7 @@ void LslidarC16Decoder::publishScan()
         if (point_idx < 0)
             point_idx = point_num - 1;
 
-        scan->ranges[point_num - 1-point_idx] = sweep_data->scans[layer_num_local].points[i].distance;
+        scan->ranges[point_num - 1-point_idx] = sweep_data->scans[layer_num_local].points[i].distance*distance_unit;
         scan->intensities[point_num - 1-point_idx] = sweep_data->scans[layer_num_local].points[i].intensity;
     }
 
